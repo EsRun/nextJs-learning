@@ -9,8 +9,6 @@ export default function Cart() {
     age: "",
   });
 
-  const { name, age } = values;
-
   useEffect(() => {
     fetch("/api/comments")
       .then((res) => res.json())
@@ -18,31 +16,25 @@ export default function Cart() {
         data;
         setValues({
           ...values,
-          [Object.keys(data)]: Object.values(data),
+          ...data,
         });
-        console.log(values);
       });
   }, []);
   return (
     <div>
       <h4 className="title">Cart</h4>
-      <div className="cart-item">
-        <p>
-          {name} {age}
-        </p>
-        <p>$40</p>
-        <p>1개</p>
-      </div>
-      <CartItem></CartItem>
-      <CartItem></CartItem>
-      <CartItem></CartItem>
+      {Object.entries(values).map(([key, value], idx) => (
+        <CartItem key={idx} age={value.age} name={value.name} />
+      ))}
     </div>
   );
 }
 
-function CartItem() {
+function CartItem({ age, name }) {
   return (
     <div className="cart-item">
+      <p>{age}</p>
+      <p>{name}</p>
       <p>상품명</p>
       <p>$40</p>
       <p>1개</p>
