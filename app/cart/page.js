@@ -1,6 +1,28 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { age, name } from "./data";
 
 export default function Cart() {
+  const [values, setValues] = useState({
+    name: "",
+    age: "",
+  });
+
+  const { name, age } = values;
+
+  useEffect(() => {
+    fetch("/api/comments")
+      .then((res) => res.json())
+      .then((data) => {
+        data;
+        setValues({
+          ...values,
+          [Object.keys(data)]: Object.values(data),
+        });
+        console.log(values);
+      });
+  }, []);
   return (
     <div>
       <h4 className="title">Cart</h4>
